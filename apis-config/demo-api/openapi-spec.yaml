@@ -10,7 +10,7 @@ servers:
     description: "Server httpbin.org"
 
 paths:
-  /anything:
+  /httpbin:
     get:
       description: GET Method
       x-kong-name: "get"
