@@ -1,6 +1,6 @@
 _format_version: "3.0"
 _konnect:
-  control_plane_name: grafana
+  control_plane_name: dev-demo
 plugins:
 - config:
     bandwidth_metrics: true
