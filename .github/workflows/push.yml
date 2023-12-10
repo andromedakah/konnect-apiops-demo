@@ -1,7 +1,12 @@
 name: Run deck 
 on: push
+env: 
+  KONG_KONNECT_TOKEN: ${{ secrets.KONG_KONNECT_TOKEN }}
+  KONG_CP_NAME: dev-demo
+  SERVICE_NAME: httpbin
+
 jobs:
-  deck-file-openapi:
+  deploy-my-demo-api:
     runs-on: ubuntu-latest
     steps:
     - name: Setup deck
@@ -10,36 +15,13 @@ jobs:
         deck-version: 1.29.2
     - name: Clone repo
       uses: actions/checkout@v2
-    - name: Run deck file openapi
-      run: deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o kong-dev.yaml  
-    - name: Run deck diff 
-      run: deck diff --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} 
-  deck-diff:
-    runs-on: ubuntu-latest
-    #make it run only on main branch
-    #if{{ github.ref == 'refs/heads/main' }}
-    steps:
-    - name: Setup deck
-      uses: kong/setup-deck@v1
-      with: 
-        deck-version: 1.29.2
-    - name: Clone repo
-      uses: actions/checkout@v2
-    - name: Run deck deck-diff
-      run: deck diff --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
-  deck-sync:
-    needs: deck-diff
-    #make it run only on main branch
-    #if{{ github.ref == 'refs/heads/main' }}
-    # environment:
-    #   name: production
-    runs-on: ubuntu-latest
-    steps:
-    - name: Setup deck
-      uses: kong/setup-deck@v1
-      with: 
-        deck-version: 1.29.2
-    - name: Clone repo
-      uses: actions/checkout@v2
-    - name: Run deck deck-gateway-sync
-      run: deck sync --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
+    - name: install inso 
+      run: curl -sL https://get.konghq.com/insomnia2kong.sh | sh
+    - name: backup old service config from the cp
+      run: |
+        mkdir -p ./spec-backup
+        deck dump --select-tag $SERVICE_NAME --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o kong-dev.yaml
+        cp ./kong-dev.yaml ./spec-backup
+        ls -la ./spec-backup
+    - name: validate openapi spec
+      run: inso lint spec $SERVICE_NAME
