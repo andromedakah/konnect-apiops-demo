@@ -23,10 +23,5 @@ jobs:
         ls -la ./spec-backup
         cd ./spec-backup
         cat ./kong-dev.yaml
-    - name: Checkout branch
-      uses: actions/checkout@v1
-    - uses: kong/setup-inso@v1
-      with:
-        inso-version: 2.4.0
     - name: validate openapi spec
-      run: inso lint spec $SERVICE_NAME
+      run: deck file lint ./spec-backup/kong-dev.yaml
