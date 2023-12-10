@@ -12,10 +12,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Run deck file openapi
       run: deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o kong-dev.yaml  
-    - name : deck tag 
-      run: deck  file add-tags --selector='services[*]' demo-api -o kong-dev.yaml
     - name: Run deck diff 
-      run: deck diff --select-tag demo-api --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} 
+      run: deck diff --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} 
   deck-diff:
     runs-on: ubuntu-latest
     #make it run only on main branch
