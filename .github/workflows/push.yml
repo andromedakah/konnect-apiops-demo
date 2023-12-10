@@ -11,4 +11,4 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v2
     - name: Run deck deck-gateway-sync
-      run: deck gateway sync --konnect-addr "https://us.api.konghq.com" #--konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-org ${{ secrets.KONG_KONNECT_ORG }} --konnect-env ${{ secrets.KONG_KONNECT_ENV }} --deck-file "deck.yaml" --deck-addr "http://localhost:8001" --deck-insecure-skip-tls-verify
+      run: deck gateway sync --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
