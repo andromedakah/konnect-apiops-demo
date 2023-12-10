@@ -1,6 +1,20 @@
 name: Run deck 
 on: push
 jobs:
+  deck-file-openapi:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup deck
+      uses: kong/setup-deck@v1
+      with: 
+        deck-version: 1.29.2
+    - name: Clone repo
+      uses: actions/checkout@v2
+    - name: Run deck file openapi
+      run: 
+        echo $PWD && ls -la 
+        deck file openapi2kong -s ../../api-config/demo-api/openapi-spec.yaml
+        deck file add-tags -s - dev -s - demo-api > demo-api/deck-file/generated/kong-dev.yaml
   deck-dump:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: deck-dump
     #make it run only on main branch
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #if{{ github.ref == 'refs/heads/main' }}
     steps:
     - name: Setup deck
       uses: kong/setup-deck@v1
@@ -36,7 +50,7 @@ jobs:
   deck-sync:
     needs: deck-diff
     #make it run only on main branch
-    if: ${{ github.ref == 'refs/heads/main' }}
+    #if{{ github.ref == 'refs/heads/main' }}
     environment:
       name: production
     runs-on: ubuntu-latest

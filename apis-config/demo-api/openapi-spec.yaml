@@ -1,0 +1,33 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: demo-api
+  description: Open API Spec Example
+x-kong-name: "httpbin-example"
+
+servers:
+  - url: https://httpbin.org
+    description: "Server httpbin.org"
+
+paths:
+  /anything:
+    get:
+      description: GET Method
+      x-kong-name: "get"
+      responses:
+        '200':
+          description: Success GET
+        '400':
+          $ref: '#/components/responses/400Error'
+
+components:
+  responses:
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
