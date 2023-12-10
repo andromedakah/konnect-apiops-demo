@@ -7,7 +7,7 @@ jobs:
     - name: Setup deck
       uses: kong/setup-deck@v1
       with: 
-        deck-version: 2.3.1
+        deck-version: 1.29.2
     - name: Clone repo
       uses: actions/checkout@v2
     - name: Run deck deck-gateway-sync
