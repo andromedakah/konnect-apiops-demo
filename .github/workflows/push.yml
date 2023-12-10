@@ -29,4 +29,7 @@ jobs:
         deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml -o generated-spec.yaml 
         cp ./generated-spec.yaml ./generated
         cat ./generated/generated-spec.yaml
-        deck file validate ./generated/generated-spec.yaml
+    - name: deck validate generated file 
+      run : deck file validate ./generated/generated-spec.yaml
+    - name: deck diff generated file
+      run : deck diff ./generated/generated-spec.yaml --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }}
