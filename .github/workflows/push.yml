@@ -22,15 +22,10 @@ jobs:
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
-        deck dump --select-tag $SERVICE_NAME --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o kong-dev.yaml
+        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o kong-dev.yaml
         cp ./kong-dev.yaml ./spec-backup
         ls -la ./spec-backup
         cd ./spec-backup
         cat ./kong-dev.yaml
-    - name: Checkout branch
-      uses: actions/checkout@v1
-    - uses: kong/setup-inso@v1
-      with:
-        inso-version: 8.4.5
     - name: validate openapi spec
       run: inso lint spec $SERVICE_NAME
