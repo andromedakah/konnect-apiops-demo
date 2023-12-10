@@ -24,4 +24,4 @@ jobs:
         cd ./spec-backup
         cat ./kong-dev.yaml
     - name: deck file validate openapi spec
-      run: deck file lint -s ./apis-configs/${{ env.SERVICE_NAME }}/openapi-spec.yaml
+      run: deck file lint apis-configs/${{ env.SERVICE_NAME }}/openapi-spec.yaml
