@@ -1,16 +1,16 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: demo-api
+  title: resqres-api
   description: Open API Spec Example
-x-kong-name: "httpbin-example"
+x-kong-name: "resqres-example"
 
 servers:
-  - url: https://httpbin.org
-    description: "Server httpbin.org"
+  - url: https://reqres.in
+    description: "Server https://reqres.in/"
 
 paths:
-  /httpbin:
+  /resqres:
     get:
       description: GET Method
       x-kong-name: "get"
