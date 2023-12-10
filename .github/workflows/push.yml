@@ -15,6 +15,7 @@ jobs:
     - name: Run backup the configuration from dev-control-plane "dev-demo"
       run: |
         mkdir -p ./kong-config-dev && cd ./kong-config-dev
+        touch backup-dev.yaml
         deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o ./dev-demo/backup-dev.yaml
         cat ./dev-demo/backup-dev.yaml
     - name: Validate the configuration from dev-control-plane "dev-demo"
@@ -22,6 +23,7 @@ jobs:
         deck validate --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -f ./dev-demo/backup-dev.yaml
   deck-diff:
     runs-on: ubuntu-latest
+    needs: deck-dump
     #make it run only on main branch
     if: ${{ github.ref == 'refs/heads/main' }}
     steps:
