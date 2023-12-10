@@ -1,6 +1,25 @@
 name: Run deck 
 on: push
 jobs:
+  deck-dump:
+    runs-on: ubuntu-latest
+    #make it run only on main branch
+    if: ${{ github.ref == 'refs/heads/main' }}
+    steps:
+    - name: Setup deck
+      uses: kong/setup-deck@v1
+      with: 
+        deck-version: 1.29.2
+    - name: Clone repo
+      uses: actions/checkout@v2
+    - name: Run backup the configuration from dev-control-plane "dev-demo"
+      run: |
+        mkdir -p ./kong-config-dev && cd ./kong-config-dev
+        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o ./dev-demo/backup-dev.yaml
+        cat ./dev-demo/backup-dev.yaml
+    - name: Validate the configuration from dev-control-plane "dev-demo"
+      run: |
+        deck validate --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -f ./dev-demo/backup-dev.yaml
   deck-diff:
     runs-on: ubuntu-latest
     #make it run only on main branch
