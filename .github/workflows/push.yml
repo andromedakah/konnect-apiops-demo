@@ -3,8 +3,6 @@ on: push
 jobs:
   deck-dump:
     runs-on: ubuntu-latest
-    #make it run only on main branch
-    if: ${{ github.ref == 'refs/heads/main' }}
     steps:
     - name: Setup deck
       uses: kong/setup-deck@v1
@@ -16,9 +14,9 @@ jobs:
       run: |
         mkdir -p ./kong-config-dev && cd ./kong-config-dev
         touch backup-dev.yaml
-        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o ./dev-demo/backup-dev.yaml
-        cat ./dev-demo/backup-dev.yaml
-    - name: Validate the configuration from dev-control-plane "dev-demo"
+        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o ./kong-config-dev/backup-dev.yaml
+        cat ./kong-config-dev/backup-dev.yaml
+    - name: Validate the configuration of the dev-control-plane "dev-demo"
       run: |
         deck validate --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -f ./dev-demo/backup-dev.yaml
   deck-diff:
