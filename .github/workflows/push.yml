@@ -12,7 +12,7 @@ jobs:
       uses: actions/checkout@v2
     - name: Run deck file openapi
       run: |
-        deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o apis-config/demo-api/generated/kong-dev.yaml | \
+        deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o apis-config/demo-api/gen/kong-dev.yaml | \
         deck file add-tags -s - dev-demo -s - demo-api
   deck-dump:
     runs-on: ubuntu-latest
