@@ -15,10 +15,6 @@ jobs:
         deck-version: 1.29.2
     - name: Clone repo
       uses: actions/checkout@v2
-    - name: install inso 
-      run: |
-        tar -xf inso-linux-8.4.5.tar.xz 
-        ./inso --version
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
@@ -27,5 +23,10 @@ jobs:
         ls -la ./spec-backup
         cd ./spec-backup
         cat ./kong-dev.yaml
+    - name: Checkout branch
+      uses: actions/checkout@v1
+    - uses: kong/setup-inso@v1
+      with:
+        inso-version: 2.4.0
     - name: validate openapi spec
       run: inso lint spec $SERVICE_NAME
