@@ -12,8 +12,8 @@ jobs:
       uses: actions/checkout@v2
     - name: Run deck file openapi
       run: |
-        deck file openapi2kong -s api-config/demo-api/openapi-spec.yaml 
-        deck file add-tags -s - dev-demo -s - demo-api > api-config/demo-api/deck-file/generated/kong-dev.yaml
+        deck file openapi2kong -s apis-config/demo-api/openapi-spec.yaml 
+        deck file add-tags -s - dev-demo -s - demo-api > apis-config/demo-api/deck-file/generated/kong-dev.yaml
   deck-dump:
     runs-on: ubuntu-latest
     steps:
