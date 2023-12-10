@@ -30,7 +30,8 @@ jobs:
         cp ./generated-spec.yaml ./generated
         cat ./generated/generated-spec.yaml
     - name: deck file tag 
-      run : deck file add-tags --selector='services[*]' reqres
+      run : |
+        cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' reqres
     - name: deck validate generated file 
       run : deck file validate ./generated/generated-spec.yaml
     - name: deck diff generated file
