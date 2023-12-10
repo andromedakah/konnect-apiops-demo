@@ -11,9 +11,7 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v2
     - name: Run deck file openapi
-      run: |
-        deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o apis-config/demo-api/gen/kong-dev.yaml | \
-        deck file add-tags --selector='services[*]' demo-dev -o apis-config/demo-api/gen/kong-dev.yaml
+      run: deck file openapi2kong --inso-compatible -s apis-config/demo-api/openapi-spec.yaml -o apis-config/demo-api/gen/kong-dev.yaml 
   deck-dump:
     runs-on: ubuntu-latest
     steps:
