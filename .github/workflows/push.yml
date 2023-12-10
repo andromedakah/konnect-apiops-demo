@@ -12,19 +12,17 @@ jobs:
       uses: actions/checkout@v2
     - name: Run deck deck-diff
       run: deck diff --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
-    - name: Run deck sync to apply changes
-      run: deck sync --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }}  
-    #   deck-sync:
-    # needs: deck-diff
-    # environment:
-    #   name: production
-    # runs-on: ubuntu-latest
-    # steps:
-    # # - name: Setup deck
-    # #   uses: kong/setup-deck@v1
-    # #   with: 
-    # #     deck-version: 1.29.2
-    # # - name: Clone repo
-    # #   uses: actions/checkout@v2
-    # - name: Run deck deck-gateway-sync
-    #   run: deck sync --konnect-addr "https://us.api.konghq.com" --konnect-token {{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name {{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
+  deck-sync:
+    needs: deck-diff
+    environment:
+      name: production
+    runs-on: ubuntu-latest
+    steps:
+    - name: Setup deck
+      uses: kong/setup-deck@v1
+      with: 
+        deck-version: 1.29.2
+    - name: Clone repo
+      uses: actions/checkout@v2
+    - name: Run deck deck-gateway-sync
+      run: deck sync --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} #--deck-insecure-skip-tls-verify 
