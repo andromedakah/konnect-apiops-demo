@@ -16,10 +16,7 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v2
     - name: install inso 
-      run: |
-        echo "deb [trusted=yes arch=amd64] https://download.konghq.com/insomnia-ubuntu/ default all" \ | sudo tee -a /etc/apt/sources.list.d/insomnia.list
-        sudo apt-get update
-        sudo apt-get install insomnia -y
+      run: tar -xf inso-linux-2.4.1.tar.xz
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
