@@ -16,7 +16,9 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v2
     - name: install inso 
-      run: curl -sL https://get.konghq.com/insomnia2kong.sh | sh
+      run: |
+        apt-get update
+        apt-get install insomnia -y
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
