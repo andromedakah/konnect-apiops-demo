@@ -24,4 +24,9 @@ jobs:
         cd ./spec-backup
         cat ./kong-dev.yaml
     - name: deck file validate openapi spec
-      run: deck file lint apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml
+      run: | 
+        mkdir generated 
+        deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml -o generated-spec.yaml 
+        cp ./generated-spec.yaml ./generated
+        cat ./generated/generated-spec.yaml
+        deck file validate -s ./generated/generated-spec.yaml
