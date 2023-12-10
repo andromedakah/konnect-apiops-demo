@@ -16,7 +16,7 @@ jobs:
     - name: Clone repo
       uses: actions/checkout@v2
     - name: install inso 
-      run: tar -xf inso-linux-2.4.1.tar.xz
+      run: tar -xf inso-linux-8.4.5.tar.xz
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
