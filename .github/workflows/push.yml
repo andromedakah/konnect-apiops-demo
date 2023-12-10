@@ -4,6 +4,10 @@ jobs:
   deck-file-openapi:
     runs-on: ubuntu-latest
     steps:
+    - name: Install NodeJS
+      uses: actions/setup-node@v3
+      with:
+        node-version: '16'
     - name: Setup deck
       uses: kong/setup-deck@v1
       with: 
