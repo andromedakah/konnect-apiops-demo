@@ -35,7 +35,7 @@ jobs:
     #     cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' {{ env.TAG_NAME }}
     - name: deck add plugin
       run : |
-        deck file add-plugins common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml
+        deck file add-plugins --selector='services[*]' common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml 
     - name: deck validate generated file 
       run : deck file validate ./generated/generated-spec.yaml
     - name: deck diff generated file
