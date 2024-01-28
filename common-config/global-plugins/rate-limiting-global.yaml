@@ -1,0 +1,4 @@
+_plugin_configs:
+  rate-limiting:
+    minute: 3
+    policy: local
