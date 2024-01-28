@@ -9,7 +9,7 @@ servers:
   - url: https://reqres.in/api
     description: "Server https://reqres.in/api"
 paths:
-  /reqres/users:
+  /users:
     get:
       description: GET Method
       x-kong-name: "users"
@@ -18,7 +18,7 @@ paths:
           description: Success GET
         '400':
           $ref: '#/components/responses/400Error'
-  /reqres/resource:
+  /resource:
     get:
       description: GET Method
       x-kong-name: "resource"
