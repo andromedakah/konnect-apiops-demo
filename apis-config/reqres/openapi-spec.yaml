@@ -6,8 +6,8 @@ info:
 x-kong-name: "resqres-example"
 
 servers:
-  - url: https://reqres.in
-    description: "Server https://reqres.in/"
+  - url: https://reqres.in/api
+    description: "Server https://reqres.in/api"
 paths:
   /users:
     get:
