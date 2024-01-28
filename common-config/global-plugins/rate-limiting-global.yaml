@@ -1,4 +1,5 @@
-_plugin_configs:
-  rate-limiting:
-    minute: 3
-    policy: local
+plugins:
+- name: rate-limiting
+ config:
+   minute: 3
+   policy: local
