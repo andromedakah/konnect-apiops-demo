@@ -1,8 +1,0 @@
-_format_version: "3.0"
-plugins:
-- name: rate-limiting-global
-  enabled: true
-  instance_name: global-plugin-rate-limiting
-  config:
-    minutes: 3
-    policy: local
