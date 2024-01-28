@@ -12,7 +12,16 @@ paths:
   /users:
     get:
       description: GET Method
-      x-kong-name: "users"
+      x-kong-name: "reqres"
+      responses:
+        '200':
+          description: Success GET
+        '400':
+          $ref: '#/components/responses/400Error'
+  /resource:
+    get:
+      description: GET Method
+      x-kong-name: "reqres"
       responses:
         '200':
           description: Success GET
