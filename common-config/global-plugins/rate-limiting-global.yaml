@@ -3,6 +3,6 @@ plugins:
 - name: rate-limiting-global
   enabled: true
   instance_name: global-plugin-rate-limiting
-config:
+  config:
     minutes: 3
     policy: local
