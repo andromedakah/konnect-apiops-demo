@@ -4,6 +4,7 @@ env:
   KONG_KONNECT_TOKEN: ${{ secrets.KONG_KONNECT_TOKEN }}
   KONG_CP_NAME: rb-demo
   SERVICE_NAME: reqres
+  TAG_NAME: api-demo
 
 jobs:
   deploy-my-demo-api:
@@ -31,10 +32,10 @@ jobs:
         cat ./generated/generated-spec.yaml
     - name: deck file tag 
       run : |
-        cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' ${{ env.SERVICE_NAME }}
+        cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' ${{ env.TAG_NAME }}
     - name: deck add plugin
       run : |
-        cat ./generated/generated-spec.yaml | deck file add-plugins --selector='services[*]' ${{ env.SERVICE_NAME }} /common-config/global-plugins/rate-limiting-global.yaml
+        cat ./generated/generated-spec.yaml | deck file add-plugins --selector='services[*]' /common-config/global-plugins/rate-limiting-global.yaml
     - name: deck validate generated file 
       run : deck file validate ./generated/generated-spec.yaml
     - name: deck diff generated file
