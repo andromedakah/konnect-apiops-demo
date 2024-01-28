@@ -12,7 +12,7 @@ paths:
   /users:
     get:
       description: GET Method
-      x-kong-name: "reqres"
+      x-kong-name: "users"
       responses:
         '200':
           description: Success GET
@@ -21,7 +21,7 @@ paths:
   /resource:
     get:
       description: GET Method
-      x-kong-name: "reqres"
+      x-kong-name: "resource"
       responses:
         '200':
           description: Success GET
