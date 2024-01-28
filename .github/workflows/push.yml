@@ -30,9 +30,9 @@ jobs:
         deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml -o generated-spec.yaml 
         cp ./generated-spec.yaml ./generated
         cat ./generated/generated-spec.yaml
-    - name: deck file tag 
-      run : |
-        cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' ${{ env.TAG_NAME }}
+    # - name: deck file tag 
+    #   run : |
+    #     cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' {{ env.TAG_NAME }}
     - name: deck add plugin
       run : |
         cat ./generated/generated-spec.yaml | deck file add-plugins --selector='services[*]' -s common-config/global-plugins/rate-limiting-global.yaml
