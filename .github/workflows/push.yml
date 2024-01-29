@@ -24,7 +24,7 @@ jobs:
         ls -la ./spec-backup
         cd ./spec-backup
         cat ./kong-dev.yaml
-    - name: deck file validate openapi spec for a given service
+    - name: deck file validate openapi spec for a given service and add plugins configuration.
       run: | 
         mkdir generated 
         deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml  | \
