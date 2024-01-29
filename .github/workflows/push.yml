@@ -2,8 +2,9 @@ name: Run deck
 on: push
 env: 
   KONG_KONNECT_TOKEN: ${{ secrets.KONG_KONNECT_TOKEN }}
-  KONG_CP_NAME: dev-demo
+  KONG_CP_NAME: rb-demo
   SERVICE_NAME: reqres
+  TAG_NAME: api-demo
 
 jobs:
   deploy-my-demo-api:
@@ -18,23 +19,24 @@ jobs:
     - name: backup old service config from the cp
       run: |
         mkdir -p ./spec-backup
-        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} -o kong-dev.yaml
-        cp ./kong-dev.yaml ./spec-backup
+        deck dump --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ env.KONG_CP_NAME }} -o kong-dev.yaml
+        cp ./kong-dev.yaml ./spec-backup 
         ls -la ./spec-backup
         cd ./spec-backup
         cat ./kong-dev.yaml
-    - name: deck file validate openapi spec
+    - name: deck file validate openapi spec for a given service and add plugins configuration.
       run: | 
         mkdir generated 
-        deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml -o generated-spec.yaml 
+        deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml  | \
+        deck file add-plugins --selector='services[*]' -s - common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml
         cp ./generated-spec.yaml ./generated
         cat ./generated/generated-spec.yaml
-    - name: deck file tag 
-      run : |
-        cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' ${{ env.SERVICE_NAME }}
+    # - name: deck file tag 
+    #   run : |
+    #     cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' {{ env.TAG_NAME }}
     - name: deck validate generated file 
       run : deck file validate ./generated/generated-spec.yaml
     - name: deck diff generated file
-      run : deck gateway diff generated/generated-spec.yaml --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} --select-tag ${{ env.SERVICE_NAME }}
+      run : deck gateway diff generated/generated-spec.yaml --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} 
     - name: deck sync generated file
-      run : deck gateway sync generated/generated-spec.yaml --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} --select-tag ${{ env.SERVICE_NAME }}
+      run : deck gateway sync generated/generated-spec.yaml --konnect-addr "https://us.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }}

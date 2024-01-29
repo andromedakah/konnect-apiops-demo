@@ -6,20 +6,27 @@ info:
 x-kong-name: "resqres-example"
 
 servers:
-  - url: https://reqres.in
-    description: "Server https://reqres.in/"
-
+  - url: https://reqres.in/api
+    description: "Server https://reqres.in/api"
 paths:
-  /resqres:
+  /users:
     get:
       description: GET Method
-      x-kong-name: "get"
+      x-kong-name: "users"
       responses:
         '200':
           description: Success GET
         '400':
           $ref: '#/components/responses/400Error'
-
+  /resource:
+    get:
+      description: GET Method
+      x-kong-name: "resource"
+      responses:
+        '200':
+          description: Success GET
+        '400':
+          $ref: '#/components/responses/400Error'
 components:
   responses:
     400Error:
