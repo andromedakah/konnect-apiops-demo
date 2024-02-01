@@ -2,7 +2,7 @@ name: Run deck
 on: push
 env: 
   KONG_KONNECT_TOKEN: ${{ secrets.KONG_KONNECT_TOKEN }}
-  KONG_CP_NAME: rb-demo
+  KONG_CP_NAME: default
   SERVICE_NAME: reqres
   TAG_NAME: api-demo
 
