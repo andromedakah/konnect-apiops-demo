@@ -37,7 +37,7 @@ jobs:
     #     cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' {{ env.TAG_NAME }}
     - name: deck validate generated file 
       run : deck file validate ./generated/generated-spec.yaml
-    # - name: deck diff generated file
-    #   run : deck gateway diff generated/generated-spec.yaml --konnect-addr "https://eu.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} 
+    - name: deck diff generated file
+      run : deck gateway diff generated/generated-spec.yaml --konnect-addr "https://eu.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} --select-tag ${{ env.TAG_NAME }}
     - name: deck sync generated file
       run : deck gateway sync generated/generated-spec.yaml --konnect-addr "https://eu.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} --select-tag ${{ env.TAG_NAME }}
