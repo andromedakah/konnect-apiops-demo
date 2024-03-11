@@ -1,0 +1,43 @@
+_format_version: "3.0"
+services:
+- host: resqres-example.upstream
+  name: resqres-example
+  path: /kong
+  plugins: []
+  port: 8000
+  protocol: http
+  routes:
+  - methods:
+    - GET
+    name: resqres-example-resource-get
+    paths:
+    - ~/resource$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags: []
+  - methods:
+    - GET
+    name: resqres-example-users-get
+    paths:
+    - ~/users$
+    plugins: []
+    regex_priority: 200
+    strip_path: false
+    tags: []
+  tags: []
+upstreams:
+- hash_on: ip
+  healthchecks:
+    passive:
+      unhealthy:
+        http_failures: 3
+        tcp_failures: 3
+        timeouts: 3
+  name: resqres-example.upstream
+  tags: []
+  targets:
+  - tags: []
+    target: localhost:8000
+  - tags: []
+    target: localhost2:8000
