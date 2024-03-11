@@ -24,19 +24,17 @@ jobs:
     #     ls -la ./spec-backup
     #     cd ./spec-backup
     #     cat ./kong-dev.yaml
-    - name: deck file validate openapi spec for a given service and add plugins configuration.
+    - name: convert openapi to kong format.
       run: | 
         mkdir generated 
-        deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml  | \
-        deck file add-plugins --selector='services[*]' -s - common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml
+        deck file openapi2kong --inso-compatible -s apis-config/${{ env.SERVICE_NAME }}/openapi-spec.yaml -o generated-spec.yaml
         deck file add-tags -s generated-spec.yaml --selector='services[*]'  {{ env.TAG_NAME }}
-        cp ./generated-spec.yaml ./generated
-        cat ./generated/generated-spec.yaml
-    # - name: deck file tag 
-    #   run : |
-    #     cat ./generated/generated-spec.yaml | deck file add-tags --selector='services[*]' {{ env.TAG_NAME }}
+    - name: add global plugins and routes plugins to the generated file.
+      run: |    
+        deck file add-plugins --selector='services[*]' -s - common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml --select-tag ${{ env.TAG_NAME }}
+        deck file add-plugins -s generated-spec.yaml --selector "$..routes[*][?(@.name=='resqres-example-resource-get')].plugins" ./api-config/plugins/route.json --select-tag ${{ env.TAG_NAME }}  
     - name: deck validate generated file 
-      run : deck file validate ./generated/generated-spec.yaml
+      run : deck file validate generated-spec.yaml
     - name: deck diff generated file
       run : deck gateway diff generated/generated-spec.yaml --konnect-addr "https://eu.api.konghq.com" --konnect-token ${{ secrets.KONG_KONNECT_TOKEN }} --konnect-control-plane-name ${{ secrets.KONG_CP_NAME }} --select-tag ${{ env.TAG_NAME }}
     - name: deck sync generated file
