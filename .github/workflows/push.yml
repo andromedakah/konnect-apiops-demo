@@ -31,8 +31,8 @@ jobs:
         deck file add-tags -s generated-spec.yaml --selector='services[*]'  {{ env.TAG_NAME }}
     - name: add global plugins and routes plugins to the generated file.
       run: |    
-        deck file add-plugins -s generated-spec.yaml  --selector='services[*]' ./common-config/global-plugins/rate-limiting-global.json
-        deck file add-plugins -s generated-spec.yaml --selector "$..routes[*][?(@.name=='resqres-example-resource-get')].plugins" ./apis-config/plugins/route.json
+        deck file add-plugins -s generated-spec.yaml  --selector='services[*]' ./common-config/global-plugins/rate-limiting-global.json -o generated-spec.yaml
+        deck file add-plugins -s generated-spec.yaml --selector "$..routes[*][?(@.name=='resqres-example-resource-get')].plugins" ./apis-config/plugins/route.json -o generated-spec.yaml
     - name: deck validate generated file 
       run : deck file validate generated-spec.yaml
     - name: deck diff generated file
