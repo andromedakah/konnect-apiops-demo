@@ -1,0 +1,28 @@
+{ "_format_version": "1.0",
+ "add-plugins": [
+   { "selectors": [
+      "$..routes[*][?(@.name=='resqres-example-resource-get')]"
+     ],
+     "overwrite": false,
+     "plugins": [
+       { "name": "route-transformer-advanced",
+         "config": {
+           "path": "/whoami"
+         }
+       }
+      ]
+   }, 
+    { "selectors": [
+      "$..routes[*][?(@.name=='resqres-example-users-get')]"
+    ],
+    "overwrite": false,
+    "plugins": [
+      { "name": "route-transformer-advanced",
+        "config": {
+          "path": "/whoami2"
+        }
+      }
+      ]
+  }
+ ]
+}

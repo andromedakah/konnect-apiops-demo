@@ -1,0 +1,7 @@
+merge2.yaml
+openapi-spec2.yaml
+tag.yaml
+kong.yaml
+common-config/pre-fun.yaml
+common-config/upstream.yaml
+common-config/global-plugins/test.json

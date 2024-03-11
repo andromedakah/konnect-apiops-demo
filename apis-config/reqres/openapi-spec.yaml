@@ -4,15 +4,14 @@ info:
   title: resqres-api
   description: Open API Spec Example
 x-kong-name: "resqres-example"
-
 servers:
-  - url: https://reqres.in/api
-    description: "Server https://reqres.in/api"
+  - url: https://reqres.in/
+    description: "Server https://reqres.in/"
 paths:
   /users:
     get:
       description: GET Method
-      x-kong-name: "users"
+      #x-kong-name: "users"
       responses:
         '200':
           description: Success GET
@@ -21,7 +20,7 @@ paths:
   /resource:
     get:
       description: GET Method
-      x-kong-name: "resource"
+      #x-kong-name: "resource"
       responses:
         '200':
           description: Success GET
